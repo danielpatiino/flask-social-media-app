@@ -1,0 +1,62 @@
+<!-- This template shows the details for a single blog post, including comments and like button. Used when you click on a post to see more info. -->
+{% extends 'base.html'%}
+{% block content %}
+<main>
+    <div class="row" style="margin-bottom:200px;">
+        <div class="row col-lg-12 text-center">
+            <div class="col-lg-12">
+                <img src="/{{ post[1] }}" class="mt-5 img-fluid" /><br>
+
+                {% if session['username'] == post[5] %}
+                <a href="/edit/{{post[0]}}" class="btn btn-outline-info">Edit Blog</a>
+                <a href="/delete/{{post[0]}}" class="btn btn-outline-danger">Delete Blog</a>
+                {% endif %}
+                
+                <br><br>
+                <div class="details-content-container" style="max-width: 700px; margin: 0 auto; background: rgba(30,30,30,0.92); color: #fff; border-radius: 1.2rem; padding: 2rem 2.5rem; box-shadow: 0 4px 24px 0 rgba(0,0,0,0.18);">
+                    <h2 style="color: #ffb347; font-weight: 700;">{{post[2]}}</h2>
+                    <p class="text-justify" style="color: #bdbdbd; font-size: 1.1rem;">{{post[3]}}</p>
+                    <p class="fs-5 mb-0" style="color: #ff9800;">Posted at {{post[4]}}</p>
+                    <p class="fs-5 mt-0" style="color: #ff9800;">Posted by {{ get_display_name(post[5]) }}</p>
+                    <hr style="border-color: #ffb347; opacity: 0.5;"><br>
+                    <h5 style="color: #ffb347;">Comments</h5>
+                    <ul id="comments-list-{{post[0]}}" class="details-comments-list" style="list-style: disc inside; padding-left: 0;">
+                        {% for comment in comments %}
+                        <li style="color: #fff;">
+                            <strong style="color: #ffb347;">{{ get_display_name(comment[2]) }}</strong> <span style="color: #aaa;">({{ comment[1] }})</span>: <span class="comment-text">{{ comment[0] }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <form action="/add-comment/{{post[0]}}" method="post" class="d-flex justify-content-center align-items-center gap-2">
+                        <input type="text" placeholder="Add comment to this post" name="comment" class="form-control" style="max-width: 350px;" required />
+                        <input class="btn btn-outline-success" type="submit" value="Add Comment" />
+                    </form><br />
+                    <div id="comments-{{post[0]}}"></div>
+                </div>
+                <hr style="border-color: #ffb347; opacity: 0.5;"><br>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Only keep dark mode adaptation for static comments
+    function applyDetailsDarkMode() {
+        const container = document.querySelector('.details-content-container');
+        const commentList = document.querySelectorAll('.details-comments-list li');
+        if (document.body.classList.contains('dark-mode')) {
+            container.style.background = 'rgba(30,30,30,0.92)';
+            container.style.color = '#fff';
+            commentList.forEach(li => li.style.color = '#fff');
+        } else {
+            container.style.background = '#fff';
+            container.style.color = '#232323';
+            commentList.forEach(li => li.style.color = '#232323');
+        }
+    }
+    document.addEventListener('DOMContentLoaded', applyDetailsDarkMode);
+    document.getElementById('darkModeToggle').addEventListener('click', function() {
+        setTimeout(applyDetailsDarkMode, 10);
+    });
+</script>
+{% endblock %}

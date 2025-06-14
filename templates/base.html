@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+	<head>
+		<title>BookRivals</title>
+		<script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+		<link type="text/css" rel="stylesheet"
+			href="{{ url_for('static', filename='bootstrap.min.css') }}">
+		<link type="text/css" rel="stylesheet"
+			href="{{ url_for('static', filename='style.css') }}">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+
+
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+
+				<a class="navbar-brand">BookRivals</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav w-100 d-flex justify-content-between align-items-center">
+						<li>
+							<form action="/" method="get">
+								<input type="text" value name="type" hidden>
+								<input type="submit" class="btn btn-outline-light" value="Home">
+							</form>
+						</li>
+						<li class="nav-item">
+							<a class="btn btn-outline-success" id="openModal" aria-current="page" href="#">Add New Post</a>
+						</li>
+						<li class="nav-item">
+							<button class="btn btn-outline-light" id="darkModeToggle">Toggle Dark Mode</button>
+						</li>
+						<li class="nav-item">
+							<a class="btn btn-outline-light" href="/profile">My Profile</a>
+						</li>
+						<li class="nav-item">
+							<a class="btn btn-outline-info" href="/user-directory">User Directory</a>
+						</li>
+						<li class="col-lg-4">
+							<form action="/logout" class="d-flex">
+								<input class="form-control me-2 disabled" aria-disabled="true"
+									placeholder="You are signed in as {{session['username']}}"
+									aria-label="Search" disabled>
+								<button class="btn btn-outline-success" type="submit">Logout</button>
+							</form>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<main>
+			{% block content %}
+			{% endblock %}
+
+		</main>
+<!-- FOOTER-->
+		<footer class="footer mt-auto py-3 bg-dark text-white" style="margin-top:10px">
+            <div class="container text-center">
+                <div style="font-size:1.1rem; font-weight:500;">WebRivals &mdash; A Modern Social Platform</div>
+                <div style="margin: 0.5rem 0 0.2rem 0; opacity:0.85;">
+                    Connect, share, and discuss anything you like. Create posts, comment, like, and follow other users.
+                </div>
+                <div style="opacity:0.7; font-size:0.95rem;">
+                    Built with Flask & Bootstrap | Created by WebRivals Team | Contact: WebRivals@gmail.com
+                </div>
+                <div style="opacity:0.6; font-size:0.9rem;">
+                    &copy; 2025 WebRivals. All rights reserved.
+                </div>
+            </div>
+        </footer>
+	</body>
+
+<!-- MODEL FOR ADD NEW POST-->
+	<div id="myModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<p>Lets add some post</p>
+			<form class="row" action="/add-item" enctype="multipart/form-data" method="post">  
+				<input class="col-lg-12 mb-2" type="file" name="image" accept=".jpg, .png" required><br>  
+				<input class="col-lg-12" type="text" name="title" placeholder="Enter title of post" required><br>  
+				<textarea name="body" rows="10" cols="50" placeholder="Enter post text" required></textarea><br>  
+				<input class="col-lg-2 btn btn-success mt-2" type="submit" value="Post">  
+			</form>
+		</div>
+	</div>
+	<script src="{{ url_for('static', filename='script.js') }}"></script>
+</html>

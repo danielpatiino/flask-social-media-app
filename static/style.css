@@ -1,0 +1,311 @@
+/* This is the main CSS file for BookRivals. It has all the custom styles for the site, like layout tweaks, dark mode, responsive design, and making sure everything looks good on both phone and desktop. Uses Bootstrap but adds a bunch of custom stuff too! */
+
+/*gray area*/
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+/*main box*/
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+}
+
+/*colse cross button*/
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+    background: none !important;
+}
+body.dark-mode .navbar {
+    background-color: #23272b !important;
+    color: #fff !important;
+}
+body.dark-mode .footer {
+    background-color: #23272b !important;
+    color: #fff !important;
+}
+body.dark-mode .card {
+    background-color: #23272b !important;
+    color: #fff !important;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.45);
+}
+body.dark-mode .card-title,
+body.dark-mode .card-text,
+body.dark-mode .form-label,
+body.dark-mode .list-group-item,
+body.dark-mode .text-info,
+body.dark-mode .text-warning {
+    color: #ffb347 !important;
+}
+body.dark-mode .btn,
+body.dark-mode .btn-outline-light,
+body.dark-mode .btn-outline-primary,
+body.dark-mode .btn-outline-info,
+body.dark-mode .btn-outline-danger,
+body.dark-mode .btn-outline-success {
+    background: #232323 !important;
+    color: #fff !important;
+    border-color: #ffb347 !important;
+}
+body.dark-mode .btn-warning {
+    background: linear-gradient(90deg, #ff9800 0%, #ffb347 100%) !important;
+    color: #232323 !important;
+}
+body.dark-mode .btn-warning:hover {
+    background: linear-gradient(90deg, #ffb347 0%, #ff9800 100%) !important;
+    color: #fff !important;
+}
+body.dark-mode input.form-control,
+body.dark-mode textarea.form-control {
+    background: #181818 !important;
+    color: #fff !important;
+    border: 1px solid #444 !important;
+}
+body.dark-mode input.form-control:focus,
+body.dark-mode textarea.form-control:focus {
+    border-color: #ff9800 !important;
+    box-shadow: 0 0 0 0.2rem rgba(255,152,0,.25) !important;
+}
+body.dark-mode .bg-secondary,
+body.dark-mode .bg-dark {
+    background-color: #23272b !important;
+    color: #fff !important;
+}
+body.dark-mode .list-group-item {
+    background-color: #23272b !important;
+    color: #fff !important;
+}
+body.dark-mode .modal-content {
+    background-color: #23272b !important;
+    color: #fff !important;
+}
+body.dark-mode .form-control:disabled, body.dark-mode .form-control[readonly] {
+    background-color: #232323 !important;
+    color: #aaa !important;
+}
+
+/* Ensure text on blog posts is visible in dark mode */
+body.dark-mode .card {
+    background-color: #1f1f1f;
+    color: #ffffff;
+}
+
+body.dark-mode .card-title {
+    color: #ffffff;
+}
+
+body.dark-mode .card-text {
+    color: #d3d3d3;
+}
+
+/* Login page custom styles */
+body {
+    background: #181818 !important;
+}
+.card {
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.25); /* Softer, neutral shadow */
+    border-radius: 1.2rem;
+    border: none;
+}
+.btn-warning {
+    background: linear-gradient(90deg, #ff9800 0%, #ffb347 100%);
+    border: none;
+    color: #222;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+.btn-warning:hover {
+    background: linear-gradient(90deg, #ffb347 0%, #ff9800 100%);
+    color: #fff;
+}
+.btn-outline-light {
+    border-color: #fff;
+    color: #fff;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-outline-light:hover {
+    background: #fff;
+    color: #222;
+}
+input.form-control {
+    background: #232323;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 0.5rem;
+}
+input.form-control:focus {
+    background: #232323;
+    color: #fff;
+    border-color: #ff9800;
+    box-shadow: 0 0 0 0.2rem rgba(255,152,0,.25);
+}
+.card-title {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+/* Modern background gradient for the main page */
+body {
+    background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
+    min-height: 100vh;
+}
+
+/* Main post grid improvements */
+section.container-fixed {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+}
+
+/* Card improvements */
+.card {
+    background: rgba(30, 30, 30, 0.97);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    border-radius: 1.5rem;
+    border: none;
+    transition: transform 0.18s, box-shadow 0.18s;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+.card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 16px 40px 0 rgba(31, 38, 135, 0.22);
+}
+.card img {
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+    object-fit: cover;
+    width: 100%;
+    height: 170px;
+    background: #222;
+}
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffb347;
+    margin-bottom: 0.5rem;
+}
+.card-text {
+    color: #bdbdbd;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Button and like improvements */
+.btn {
+    border-radius: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+}
+.btn-primary, .btn-outline-primary {
+    background: linear-gradient(90deg, #ff9800 0%, #ffb347 100%);
+    color: #222;
+    border: none;
+}
+.btn-primary:hover, .btn-outline-primary:hover {
+    background: linear-gradient(90deg, #ffb347 0%, #ff9800 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px #ff9800;
+}
+.btn-outline-info, .btn-outline-danger, .btn-outline-success, .btn-outline-light {
+    border-radius: 0.7rem;
+}
+
+/* Navbar and footer improvements */
+.navbar {
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.18);
+    padding: 1rem 2rem;
+}
+.footer {
+    background: #181818;
+    color: #fff;
+    border-top-left-radius: 1.2rem;
+    border-top-right-radius: 1.2rem;
+    box-shadow: 0 -2px 12px 0 rgba(0,0,0,0.18);
+    margin-top: 3rem;
+}
+
+/* Search bar improvements */
+form.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    margin: 1.5rem 0 2rem 2.5rem;
+}
+form.search-bar input[type="text"] {
+    border-radius: 0.7rem;
+    border: 1px solid #444;
+    background: #232323;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    min-width: 220px;
+}
+form.search-bar button {
+    border-radius: 0.7rem;
+    background: linear-gradient(90deg, #ff9800 0%, #ffb347 100%);
+    color: #222;
+    border: none;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    transition: background 0.18s, color 0.18s;
+}
+form.search-bar button:hover {
+    background: linear-gradient(90deg, #ffb347 0%, #ff9800 100%);
+    color: #fff;
+}
+
+/* Responsive tweaks */
+@media (max-width: 991px) {
+    section.container-fixed {
+        gap: 2rem 0.5rem;
+    }
+    .card {
+        width: 95vw !important;
+        margin: 0 auto 2rem auto;
+    }
+}
+@media (max-width: 767px) {
+    .navbar {
+        padding: 0.7rem 0.5rem;
+    }
+    .footer {
+        padding: 1rem 0.5rem;
+    }
+    .card img {
+        height: 120px;
+    }
+}
+

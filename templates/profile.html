@@ -1,0 +1,114 @@
+<!-- This is the user profile page template. Shows your info, profile pic, posts, followers/following, and lets you upload a new profile picture. -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9 col-sm-12">
+            <div class="card shadow-lg bg-dark text-light" style="border-radius: 1.2rem;">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        {% if user[1] %}
+                            <img src="/{{ user[1] }}" alt="Profile Picture" class="rounded-circle me-4 border border-warning" style="width:110px; height:110px; object-fit:cover; box-shadow:0 2px 12px #000;">
+                        {% else %}
+                            <div class="rounded-circle bg-secondary me-4" style="width:110px; height:110px;"></div>
+                        {% endif %}
+                        <div>
+                            <h2 class="mb-1" style="font-weight:700; letter-spacing:1px; color:#ffb347;">{{ get_display_name(user[0]) }}</h2>
+                            {% if user[0] == session['username'] %}
+                                <span class="badge bg-success">You</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if user[0] == session['username'] %}
+                    <form action="/profile" method="post" enctype="multipart/form-data" class="mb-4">
+                        <div class="mb-3">
+                            <label class="form-label">Change Profile Picture:</label>
+                            <input type="file" name="profile_picture" accept="image/*" class="form-control bg-dark text-light border-secondary">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Bio:</label>
+                            <textarea name="bio" rows="3" class="form-control bg-dark text-light border-secondary" style="resize:vertical;">{{ user[2] }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date of Birth:</label>
+                            <input type="date" name="date_of_birth" value="{{ user[3] }}" class="form-control bg-dark text-light border-secondary">
+                        </div>
+                        <button type="submit" class="btn btn-warning fw-bold px-4">Update Profile</button>
+                    </form>
+                    <div class="row mt-4">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <div class="bg-secondary bg-opacity-10 rounded p-3 h-100">
+                                <h5 class="text-warning mb-2">Following <span class="badge bg-dark text-warning">{{ following|length }}</span></h5>
+                                <ul class="list-group list-group-flush">
+                                    {% for u in following %}
+                                    <li class="list-group-item bg-dark text-light border-0 px-0 py-1"><a href="/profile?user={{ u }}" class="text-info">{{ get_display_name(u) }}</a></li>
+                                    {% else %}
+                                    <li class="list-group-item bg-dark text-light border-0 px-0 py-1">Not following anyone yet.</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="bg-secondary bg-opacity-10 rounded p-3 h-100">
+                                <h5 class="text-warning mb-2">Followers <span class="badge bg-dark text-warning">{{ followers|length }}</span></h5>
+                                <ul class="list-group list-group-flush">
+                                    {% for u in followers %}
+                                    <li class="list-group-item bg-dark text-light border-0 px-0 py-1"><a href="/profile?user={{ u }}" class="text-info">{{ get_display_name(u) }}</a></li>
+                                    {% else %}
+                                    <li class="list-group-item bg-dark text-light border-0 px-0 py-1">No followers yet.</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="mb-3">
+                        <label class="form-label">Bio:</label>
+                        <div class="bg-secondary bg-opacity-10 rounded p-2" style="min-height:60px;">{{ user[2] if user[2] else 'No bio yet.' }}</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Date of Birth:</label>
+                        <div>{{ user[3] if user[3] else 'Not set' }}</div>
+                    </div>
+                    {% endif %}
+                    {% if user[0] != session['username'] %}
+                    <form id="followForm" class="mt-3">
+                        <button type="button" id="followBtn" class="btn btn-outline-warning px-4 fw-bold">
+                            {% if is_following(session['username'], user[0]) %}Unfollow{% else %}Follow{% endif %}
+                        </button>
+                        <span id="followerCount" class="ms-3 text-warning">Followers: {{ get_follower_count(user[0]) }}</span>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const followBtn = document.getElementById('followBtn');
+        if (followBtn) {
+            followBtn.addEventListener('click', function() {
+                const action = followBtn.textContent.trim() === 'Follow' ? 'follow' : 'unfollow';
+                fetch(`/${action}/${'{{ user[0] }}'}`, { method: 'POST' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            followBtn.textContent = (action === 'follow') ? 'Unfollow' : 'Follow';
+                            // Update follower count
+                            fetch(`/api/follower-count/{{ user[0] }}`)
+                                .then(r => r.json())
+                                .then(d => {
+                                    document.getElementById('followerCount').textContent = 'Followers: ' + d.count;
+                                });
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+            });
+        }
+    });
+</script>
+{% endblock %}

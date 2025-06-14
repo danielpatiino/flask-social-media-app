@@ -1,0 +1,14 @@
+<!-- This template is for editing a blog post. Lets you change the title, content, and image if you want. Only the post owner can use this page. -->
+{% extends 'base.html' %}
+{% block content %}
+<main>
+    <h4>Edit and update the existing post</h4>
+    <p>Note: only add an image when you want to change it.</p>
+    <form action="/edit/{{post[0]}}" enctype="multipart/form-data" method="post">
+        <input type="file" name="image" accept=".jpg, .png"><br>
+        <input type="text" name="title" placeholder="Enter title of the blog" value="{{post[2]}}" required><br>
+        <textarea type="text" name="body" rows=10 cols=50 placeholder="Enter blog text" required>{{post[3]}}</textarea><br>
+        <input class="btn btn-success" type="submit" value="Update blog post">
+    </form>
+</main>
+{% endblock %}

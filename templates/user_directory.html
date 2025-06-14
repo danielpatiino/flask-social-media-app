@@ -1,0 +1,52 @@
+<!-- This template shows a directory of all users. Lets you browse and search for people to follow. -->
+{% extends 'base.html' %}
+{% block content %}
+<main class="container mt-4">
+    <div class="row">
+        {% for user in users %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 bg-dark text-light shadow-lg">
+                <div class="card-body text-center">
+                    {% if user[1] %}
+                        <img src="/{{ user[1] }}" alt="Profile Picture" class="rounded-circle mb-2" width="80" height="80">
+                    {% else %}
+                        <div class="rounded-circle bg-secondary mb-2" style="width:80px; height:80px; display:inline-block;"></div>
+                    {% endif %}
+                    <h5 class="card-title">{{ get_display_name(user[0]) }}</h5>
+                    <p class="card-text">{{ user[2] if user[2] else 'No bio yet.' }}</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="/profile?user={{ user[0] }}" class="btn btn-outline-primary">View Profile</a>
+                        {% if user[0] != session['username'] %}
+                        <button type="button" class="btn btn-outline-warning follow-btn" data-username="{{ user[0] }}">
+                            {% if is_following(session['username'], user[0]) %}Unfollow{% else %}Follow{% endif %}
+                        </button>
+                        {% else %}
+                        <span class="badge bg-success">You</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.follow-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const username = btn.getAttribute('data-username');
+                const action = btn.textContent.trim() === 'Follow' ? 'follow' : 'unfollow';
+                fetch(`/${action}/${username}`, { method: 'POST' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            btn.textContent = (action === 'follow') ? 'Unfollow' : 'Follow';
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+            });
+        });
+    });
+</script>
+{% endblock %}
